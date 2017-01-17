@@ -504,7 +504,7 @@ def _compile_expression(body, end, true, false):
 	parts = _unwarp_expression(body, end, true, false)
 
 	if len(parts) < 3:
-		assert len(parts) == 1
+		assert len(parts) == 1, parts
 		return parts[0]
 
 	explicit_parts = _make_explicit_subexpressions(parts)
@@ -1060,7 +1060,7 @@ def _find_branching_end(blocks, topmost_end):
 		target = _get_target(warp, allow_end=True)
 
 		if isinstance(warp, nodes.EndWarp) and target is None:
-			assert block == end
+			assert block == end, (block, end)
 			return block
 
 		if isinstance(warp, nodes.UnconditionalWarp) and target == end:
