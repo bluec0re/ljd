@@ -118,6 +118,10 @@ class BinaryOperator():
 
 		visitor._leave_node(visitor.leave_binary_operator, self)
 
+	def __repr__(self):
+		op = {0: 'or', 10: 'and', 20: '<', 21: '>', 22: '<=', 23: '>=', 24: '!=', 25: '==', 30: '..', 40: '+', 41: '-', 50: '*', 51: '/', 52: '%', 70: '^'}[self.type]
+		return 'BinOp({} {} {})'.format(self.left, op, self.right)
+
 
 class UnaryOperator():
 	T_NOT = 60  # not operand
@@ -195,6 +199,9 @@ class ExpressionsList():
 
 		visitor._leave_node(visitor.leave_expressions_list, self)
 
+	def __repr__(self):
+		return 'ExpressionsList{}'.format(self.contents)
+
 
 # Called Name in the Lua 5.1 reference
 class Identifier():
@@ -212,6 +219,10 @@ class Identifier():
 	def _accept(self, visitor):
 		visitor._visit_node(visitor.visit_identifier, self)
 		visitor._leave_node(visitor.leave_identifier, self)
+
+	def __repr__(self):
+		itype = ['SLOT', 'LOCAL', 'UV', 'BUILTIN'][self.type]
+		return 'Identifier(type={}, name={}, slot={})'.format(itype, self.name, self.slot)
 
 
 # helper vararg/varreturn
@@ -235,6 +246,9 @@ class TableElement():
 
 		visitor._leave_node(visitor.leave_table_element, self)
 
+	def __repr__(self):
+		return 'TableElement({}.{})'.format(self.table, self.key)
+
 
 class Vararg():
 	def _accept(self, visitor):
@@ -254,6 +268,9 @@ class FunctionCall():
 		visitor._visit(self.function)
 
 		visitor._leave_node(visitor.leave_function_call, self)
+
+	def __repr__(self):
+		return 'FunctionCall(function={}, arguments={!r})'.format(self.function, self.arguments)
 
 
 class If():
@@ -308,6 +325,9 @@ class Block():
 		visitor._visit(self.warp)
 
 		visitor._leave_node(visitor.leave_block, self)
+
+	def __repr__(self):
+		return 'Block({}-{}){}'.format(self.first_address, self.last_address, self.contents)
 
 
 class UnconditionalWarp():
@@ -399,6 +419,9 @@ class Return():
 
 		visitor._leave_node(visitor.leave_return, self)
 
+	def __repr__(self):
+		return 'Return{}'.format(self.returns.contents)
+
 
 class Break():
 	def _accept(self, visitor):
@@ -480,6 +503,10 @@ class Constant():
 		visitor._visit_node(visitor.visit_constant, self)
 		visitor._leave_node(visitor.leave_constant, self)
 
+	def __repr__(self):
+		ctype = ['INT', 'FLOAT', 'STR', 'CDATA'][self.type]
+		return 'Constant(type={}, value={!r})'.format(ctype, self.value)
+
 
 class Primitive():
 	T_NIL = 0
@@ -492,3 +519,7 @@ class Primitive():
 	def _accept(self, visitor):
 		visitor._visit_node(visitor.visit_primitive, self)
 		visitor._leave_node(visitor.leave_primitive, self)
+
+	def __repr__(self):
+		ctype = ['NIL', 'TRUE', 'FALSE'][self.type]
+		return 'Primiitve(type={})'.format(ptype)
