@@ -81,6 +81,9 @@ class Assignment():
 
 		visitor._leave_node(visitor.leave_assignment, self)
 
+	def __repr__(self):
+		return 'Assignemt({!r} = {!r})'.format(self.destinations, self.expressions)
+
 
 class BinaryOperator():
 	T_LOGICAL_OR = 0  # left or right
@@ -186,6 +189,9 @@ class VariablesList():
 		visitor._visit_list(self.contents)
 
 		visitor._leave_node(visitor.leave_variables_list, self)
+
+	def __repr__(self):
+		return 'VariablesList{}'.format(self.contents)
 
 
 class ExpressionsList():
@@ -521,5 +527,5 @@ class Primitive():
 		visitor._leave_node(visitor.leave_primitive, self)
 
 	def __repr__(self):
-		ctype = ['NIL', 'TRUE', 'FALSE'][self.type]
-		return 'Primiitve(type={})'.format(ptype)
+		ptype = ['NIL', 'TRUE', 'FALSE'][self.type]
+		return 'Primitve(type={})'.format(ptype)

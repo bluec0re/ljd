@@ -294,6 +294,9 @@ class _SlotReference():
 		self.path = []
 		self.identifier = None
 
+	def __repr__(self):
+		return 'SlotRef(path={:.30})'.format(repr(self.path))
+
 
 class _SlotInfo():
 	def __init__(self):
@@ -304,6 +307,9 @@ class _SlotInfo():
 		self.termination = None
 
 		self.function = None
+
+	def __repr__(self):
+		return 'SlotInfo(slot={0.slot})'.format(self)
 
 
 class _SlotsCollector(traverse.Visitor):
